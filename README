@@ -1,0 +1,7 @@
+Branch:  phikai / runkeeper-wordpress-activity-feed
+Author: A. Kai Armstrong - http://www.kaiarmstrong.com
+Description: A WordPress plugin that automatically posts RunKeeper Activities as blog posts.
+
+Includes: 
+ - sfYaml (https://github.com/fabpot/yaml)
+ - runkeeperAPI (https://github.com/PierreRASO/runkeeperAPI)
