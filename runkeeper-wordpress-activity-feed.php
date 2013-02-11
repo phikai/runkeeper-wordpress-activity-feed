@@ -64,7 +64,7 @@ function toz_rk_admin() {
 	//Set the Acess Token for API Use
 	$toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
 	if ( !empty($toz_rk_auth_code) ) {
-		$toz_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ) );
+		$toz_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ), $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"] );
 	}
 	
 	//Update Plugin Options
