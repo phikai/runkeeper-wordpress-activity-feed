@@ -52,7 +52,10 @@ function toz_rk_admin() {
 	/* Stores the access values we'll need after we've authorized our account. */
 	if ($_GET['code']) {
 		$auth_code = $_GET['code'];
-		if ($toz_rkAPI->getRunkeeperToken($auth_code, $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]) == false) {
+		$toz_rk_redirect_uri = $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+		$toz_rk_redirect_uri = explode( '&', $toz_rk_redirect_uri);
+		$toz_rk_redirect_uri = $toz_rk_redirect_uri[0];
+		if ($toz_rkAPI->getRunkeeperToken($auth_code, 'http://'.$toz_rk_redirect_uri) ) {
 			echo $toz_rkAPI->api_last_error; /* get access token problem */
 			exit();
 		} else {
