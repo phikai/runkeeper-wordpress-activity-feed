@@ -52,7 +52,7 @@ function toz_rk_admin() {
 	/* Stores the access values we'll need after we've authorized our account. */
 	if ($_GET['code']) {
 		$auth_code = $_GET['code'];
-		if ($toz_rkAPI->getRunkeeperToken($auth_code) == false) {
+		if ($toz_rkAPI->getRunkeeperToken($auth_code, $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]) == false) {
 			echo $toz_rkAPI->api_last_error; /* get access token problem */
 			exit();
 		} else {
@@ -64,7 +64,7 @@ function toz_rk_admin() {
 	//Set the Acess Token for API Use
 	$toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
 	if ( !empty($toz_rk_auth_code) ) {
-		$toz_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ), $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"] );
+		$toz_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ) );
 	}
 	
 	//Update Plugin Options
