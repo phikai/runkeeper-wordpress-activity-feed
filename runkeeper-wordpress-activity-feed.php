@@ -50,6 +50,7 @@ function toz_rk_admin() {
 	//$linkUrl = $linkUrl.$callbackUrl;
 	
 	/* Stores the access values we'll need after we've authorized our account. */
+	/*
 	if ($_GET['code']) {
 		$auth_code = $_GET['code'];
 		$toz_rk_redirect_uri = $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
@@ -57,12 +58,12 @@ function toz_rk_admin() {
 		$toz_rk_redirect_uri = $toz_rk_redirect_uri[0];
 		if ($toz_rkAPI->getRunkeeperToken($auth_code, 'http://'.$toz_rk_redirect_uri) ) {
 			echo $toz_rkAPI->api_last_error; /* get access token problem */
-			exit();
+			/*exit();
 		} else {
 			update_option('toz_rk_auth_code', $_GET['code']);
 			update_option('toz_rk_access_token', $toz_rkAPI->access_token);
 		}
-	}
+	}*/
 	
 	//Set the Acess Token for API Use
 	$toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
