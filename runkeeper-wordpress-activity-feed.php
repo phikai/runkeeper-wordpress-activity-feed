@@ -15,7 +15,7 @@ function toz_rk_activate(){
 	add_option('toz_rk_auth_code', '');
 	add_option('toz_rk_author_id', '');
 	add_option('toz_rk_post_categories', '');
-	add_option('toz_rk_last_event', '');
+	add_option('toz_rk_last_event', '0');
 }
 register_activation_hook( __FILE__, 'toz_rk_activate');
 
@@ -116,11 +116,6 @@ function toz_rk_admin() {
 				<input type="hidden" name="action" value="toz_rk_import_old" />
 				<input type="submit" class="button-primary" value="<?php _e('Import') ?>" /></p>
 			</form></p>
-			<p><form method="post" action="">
-				<p>Debug Some stuff: 
-				<input type="hidden" name="action" value="toz_rk_debug" />
-				<input type="submit" class="button-primary" value="<?php _e('Debug') ?>" /></p>
-			</form></p>
 			<hr />
 			<?php if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_import_old' )) { ?>
 				<h3>Historical Import</h3>
@@ -128,12 +123,6 @@ function toz_rk_admin() {
 			<?php } else {
 				//Do Nothing
 			}
-			if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_debug' )) { ?>
-				<h3>Historical Import</h3>
-				<?php toz_rk_schedule_event(); ?>
-			<?php } else {
-				//Do Nothing
-			} 
 		} ?>
 	</div>
 <?php }
@@ -170,35 +159,37 @@ function toz_rk_schedule_event() {
 					$rkActivity_uri = $rkActivitiesItem->uri;
 					
 					$rkActivity_id = explode('/', $rkActivity_uri);
-					$rkActivity_id = $rkActivity_id[5];
-					echo $rkActivity_id;
+					$rkActivity_id = $rkActivity_id[2];
 					
-					/*
-					$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
-					$rkActivity_detailed_array = (array) $rkActivity_detailed;
+					if ( $rkActivity_id > get_option('toz_rk_last_event') ) {
+						$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
+						$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
-					$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
+						$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
 							
-					$toz_rk_post_import = array (
-						'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-						'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
-						'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
-						'post_status'   => 'publish',
-						'post_author'   => get_option('toz_rk_author_id'),
-						'post_category' => array(get_option('toz_rk_post_categories'))
-					);
-					$post_id = wp_insert_post( $toz_rk_post_import );
+						$toz_rk_post_import = array (
+							'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
+							'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
+							'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
+							'post_status'   => 'publish',
+							'post_author'   => get_option('toz_rk_author_id'),
+							'post_category' => array(get_option('toz_rk_post_categories'))
+							);
+						$post_id = wp_insert_post( $toz_rk_post_import );
 					
-					if ($rkActivity_detailed_array['images']['0']) {
-						$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
-						$image_url = $rkActivity_detailed_array_images['uri'];
-						toz_rk_featured_image( $image_url, $post_id );
+						if ($rkActivity_detailed_array['images']['0']) {
+							$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
+							$image_url = $rkActivity_detailed_array_images['uri'];
+							toz_rk_featured_image( $image_url, $post_id );
+						} else {
+							//Do Nothing
+						}
+						
+						update_option('toz_rk_last_event', $rkActivity_id);
+						
 					} else {
 						//Do Nothing
 					}
-					*/
-					
-					//MAKE SURE TO UPDATE THE DATABASE WITH NEW ID
 												
 				}
 			}
@@ -299,9 +290,3 @@ function toz_rk_featured_image( $image_url, $post_id ) {
 
     set_post_thumbnail( $post_id, $attach_id );
 }
-
-/* Thoughts on getting latest activity...
-
-So get the latest activity and then store the activity ID in the database, then we check to see if the ID of an activity is greater than it... if its, we process that with cron... if not... then we ignore it. We'll keep doing this so we alyways get the latest post.
-
-*/
