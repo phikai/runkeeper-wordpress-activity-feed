@@ -5,7 +5,7 @@ Plugin Name: TOZ RunKeeper WordPress Activity Feed
 Plugin URI: http://thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -46,7 +46,7 @@ function toz_rk_admin() {
 	}
 	
 	/* Stores the access values we'll need after we've authorized our account. */
-	if ($_GET['code'] && $_GET['access_token']) {
+	if ( isset($_GET['code']) && isset($_GET['access_token']) ) {
 		update_option('toz_rk_auth_code', $_GET['code']);
 		update_option('toz_rk_access_token', $_GET['access_token']);
 	}

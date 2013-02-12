@@ -21,8 +21,10 @@
 # Note: It is recommended to save this file in a safe place other than the document root of your Web server and more generally that it is not accessible via a URL from the web. Also remember to set access rights to that file, so only the user system running your application can access it.
 App:
  client_id: d00445342b2d479e8fd55e697bae2c6b # my app client_id goes here
+ client_secret: NULL
  auth_url: https://runkeeper.com/apps/authorize
  access_token_url: https://runkeeper.com/apps/token
+ redirect_uri: NULL
  api_base_url: https://api.runkeeper.com
 
 # API settings
