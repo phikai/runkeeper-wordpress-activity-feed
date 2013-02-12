@@ -127,10 +127,13 @@ function toz_rk_admin() {
 	</div>
 <?php }
 
+//Executes the Schedule Event Function
+add_action('toz_rk_schedule', 'toz_rk_schedule_event');
+
 //This sets up the wp-cron function to automatically check for new events and post them.
 function toz_rk_schedule_activate() {
-	if ( !wp_next_scheduled( 'toz_rk_schedule_event' ) ) {
-		wp_schedule_event(time(), 'hourly', 'toz_rk_schedule_event');
+	if ( !wp_next_scheduled( 'toz_rk_schedule' ) ) {
+		wp_schedule_event(time(), 'hourly', 'toz_rk_schedule');
 	} else {
 		//Do Nothing
 	}
