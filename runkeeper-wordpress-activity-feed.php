@@ -180,7 +180,8 @@ function toz_rk_schedule_event() {
 							'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
 							'post_status'   => 'publish',
 							'post_author'   => get_option('toz_rk_author_id'),
-							'post_category' => array(get_option('toz_rk_post_categories'))
+							'post_category' => array(get_option('toz_rk_post_categories')),
+							'tags_input'    => $rkActivity_detailed_array['type']
 							);
 						$post_id = wp_insert_post( $toz_rk_post_import );
 					
@@ -244,6 +245,7 @@ function toz_rk_import_old() {
 						'post_status'   => 'publish',
 						'post_author'   => get_option('toz_rk_author_id'),
 						'post_category' => array(get_option('toz_rk_post_categories'))
+						'tags_input'    => $rkActivity_detailed_array['type']
 					);
 					$post_id = wp_insert_post( $toz_rk_post_import );
 					
