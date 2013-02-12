@@ -131,17 +131,65 @@ function toz_rk_schedule_activate() {
 }
 
 function toz_rk_schedule_event() {
-	$toz_rk_post = array(
-		'post_title'    => 'My post',
-		'post_content'  => 'This is my post.',
-		'post_date'     => 'some date', //this is converted activity date
-		'post_status'   => 'publish',
-		'post_author'   => get_option('toz_rk_author_id'),
-		'post_category' => array(get_option('toz_rk_post_categories'))
+	$toz_schedule_rkAPI = new runkeeperAPI(
+		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
 	);
-	
-	wp_insert_post( $toz_rk_post );	
+	if ($toz_schedule_rkAPI->api_created == false) {
+		echo 'error '.$toz_schedule_rkAPI->api_last_error; /* api creation problem */
+		exit();
+	}
+
+	$toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
+	if ( !empty($toz_rk_auth_code) ) {
+		$toz_schedule_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ) );
+	}
+
+	//Get the Previous Event
+	$import_params = array (
+		'pageSize' => '1'
+	);
+	$rkActivitiesFeedImport = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivityFeed','Read', '', '', $import_params);
+		if ($rkActivitiesFeedImport) {
+			$rkActivitiesFeedImport_array = (array) $rkActivitiesFeedImport;
+			foreach ($rkActivitiesFeedImport_array as $rkActivitiesItems) {
+				foreach ($rkActivitiesItems as $rkActivitiesItem) {
+					$rkActivity_uri = $rkActivitiesItem->uri;
+					
+					//BUILD THE LOGIC HERE FOR URL CHECK ON ID
+					
+					$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
+					$rkActivity_detailed_array = (array) $rkActivity_detailed;
+
+					$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
+							
+					$toz_rk_post_import = array (
+						'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
+						'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
+						'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
+						'post_status'   => 'publish',
+						'post_author'   => get_option('toz_rk_author_id'),
+						'post_category' => array(get_option('toz_rk_post_categories'))
+					);
+					$post_id = wp_insert_post( $toz_rk_post_import );
+					
+					if ($rkActivity_detailed_array['images']['0']) {
+						$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
+						$image_url = $rkActivity_detailed_array_images['uri'];
+						toz_rk_featured_image( $image_url, $post_id );
+					} else {
+						//Do Nothing
+					}
+					
+					//MAKE SURE TO UPDATE THE DATABASE WITH NEW ID
+												
+				}
+			}
+		} else {
+			echo $toz_schedule_rkAPI->api_last_error;
+			print_r($toz_schedule_rkAPI->request_log);
+		}
 }
+
 
 function toz_rk_import_progress($rkActivity_uri) {
 	echo 'Importing Activity: ' . $rkActivity_uri . '<br />';
@@ -152,7 +200,7 @@ function toz_rk_import_old() {
 		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
 	);
 	if ($toz_import_rkAPI->api_created == false) {
-		echo 'error '.$toz_rkAPI->api_last_error; /* api creation problem */
+		echo 'error '.$toz_import_rkAPI->api_last_error; /* api creation problem */
 		exit();
 	}
 
