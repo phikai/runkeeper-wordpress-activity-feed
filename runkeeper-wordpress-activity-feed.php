@@ -70,7 +70,6 @@ function toz_rk_admin() {
 	}
 	
 ?>
-	<!-- The Main Body of the Plugin -->
 	<div class="wrap">
 		<h2>RunKeeper WordPress Activity Feed</h2>
 		<?php $toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
@@ -78,13 +77,11 @@ function toz_rk_admin() {
 			<p>Let's authorize RunKeeper: <a href="http://runkeeper.thinkonezero.com"><img src="<?php echo plugins_url( 'includes/images/runkeeper-connect-blue-white.png' , __FILE__ ); ?>" width="200" height="26" alt="Connect to RunKeeper" style="padding-left:10px" /></a></p>
 		<?php } else {
 			$rkProfile = $toz_rkAPI->doRunkeeperRequest('Profile','Read');
-			//print_r($rkProfile);
 			$rkProfile_array = (array) $rkProfile; ?>
 			<h3>Runkeeper Profile</h3>
 			<img src="<?php echo $rkProfile_array['normal_picture']; ?>"><p>Name: <?php  echo $rkProfile_array['name']; ?><br />
 			Location: <?php echo $rkProfile_array['location']; ?> <br />
 			Athlete Type: <?php echo $rkProfile_array['athlete_type']; ?></p>
-			<!-- The profile is loaded so we know we're authenticated properly. -->
 			<hr />
 			<h3>Plugin Settings</h3>
 			<p><form method="post" action="">
@@ -170,7 +167,6 @@ function toz_rk_import_old() {
 	);
 	$rkActivitiesFeedImport = $toz_import_rkAPI->doRunkeeperRequest('FitnessActivityFeed','Read', '', '', $import_params);
 		if ($rkActivitiesFeedImport) {
-			//print_r($rkActivitiesFeedImport);
 			$rkActivitiesFeedImport_array = (array) $rkActivitiesFeedImport;
 			foreach ($rkActivitiesFeedImport_array as $rkActivitiesItems) {
 				foreach ($rkActivitiesItems as $rkActivitiesItem) {
