@@ -44,26 +44,11 @@ function toz_rk_admin() {
 		exit();
 	}
 	
-	/* Generate link to allow user to connect to RunKeeper and to allow your app*/
-	$linkUrl = $toz_rkAPI->connectRunkeeperButtonUrl();
-	//$callbackUrl = urlencode(admin_url( 'options-general.php?page=runkeeper-wordpress-activity-feed', ''));
-	//$linkUrl = $linkUrl.$callbackUrl;
-	
 	/* Stores the access values we'll need after we've authorized our account. */
-	/*
-	if ($_GET['code']) {
-		$auth_code = $_GET['code'];
-		$toz_rk_redirect_uri = $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-		$toz_rk_redirect_uri = explode( '&', $toz_rk_redirect_uri);
-		$toz_rk_redirect_uri = $toz_rk_redirect_uri[0];
-		if ($toz_rkAPI->getRunkeeperToken($auth_code, 'http://'.$toz_rk_redirect_uri) ) {
-			echo $toz_rkAPI->api_last_error; /* get access token problem */
-			/*exit();
-		} else {
-			update_option('toz_rk_auth_code', $_GET['code']);
-			update_option('toz_rk_access_token', $toz_rkAPI->access_token);
-		}
-	}*/
+	if ($_GET['code'] && $_GET['access_token']) {
+		update_option('toz_rk_auth_code', $_GET['code']);
+		update_option('toz_rk_access_token', $_GET['access_token']);
+	}
 	
 	//Set the Acess Token for API Use
 	$toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
@@ -90,7 +75,6 @@ function toz_rk_admin() {
 		<h2>RunKeeper WordPress Activity Feed</h2>
 		<?php $toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
 		if ( empty($toz_rk_auth_code) ) {  ?>
-			<!--<p>Let's authorize RunKeeper: <a href="<?php echo $linkUrl; ?>"><img src="<?php echo plugins_url( 'includes/images/runkeeper-connect-blue-white.png' , __FILE__ ); ?>" width="200" height="26" alt="Connect to RunKeeper" style="padding-left:10px" /></a></p>-->
 			<p>Let's authorize RunKeeper: <a href="http://runkeeper.thinkonezero.com"><img src="<?php echo plugins_url( 'includes/images/runkeeper-connect-blue-white.png' , __FILE__ ); ?>" width="200" height="26" alt="Connect to RunKeeper" style="padding-left:10px" /></a></p>
 		<?php } else {
 			$rkProfile = $toz_rkAPI->doRunkeeperRequest('Profile','Read');
