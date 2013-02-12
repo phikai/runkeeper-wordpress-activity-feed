@@ -116,10 +116,21 @@ function toz_rk_admin() {
 				<input type="hidden" name="action" value="toz_rk_import_old" />
 				<input type="submit" class="button-primary" value="<?php _e('Import') ?>" /></p>
 			</form></p>
+			<p><form method="post" action="">
+				<p>Debug Some stuff: 
+				<input type="hidden" name="action" value="toz_rk_debug" />
+				<input type="submit" class="button-primary" value="<?php _e('Debug') ?>" /></p>
+			</form></p>
 			<hr />
 			<?php if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_import_old' )) { ?>
 				<h3>Historical Import</h3>
 				<?php toz_rk_import_old(); ?>
+			<?php } else {
+				//Do Nothing
+			}
+			if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_debug' )) { ?>
+				<h3>Historical Import</h3>
+				<?php toz_rk_schedule_event(); ?>
 			<?php } else {
 				//Do Nothing
 			} 
@@ -158,8 +169,11 @@ function toz_rk_schedule_event() {
 				foreach ($rkActivitiesItems as $rkActivitiesItem) {
 					$rkActivity_uri = $rkActivitiesItem->uri;
 					
-					//BUILD THE LOGIC HERE FOR URL CHECK ON ID
+					$rkActivity_id = explode('/', $rkActivity_uri);
+					$rkActivity_id = $rkActivity_id[5];
+					echo $rkActivity_id;
 					
+					/*
 					$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
 					$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
@@ -182,6 +196,7 @@ function toz_rk_schedule_event() {
 					} else {
 						//Do Nothing
 					}
+					*/
 					
 					//MAKE SURE TO UPDATE THE DATABASE WITH NEW ID
 												
