@@ -15,6 +15,7 @@ function toz_rk_activate(){
 	add_option('toz_rk_auth_code', '');
 	add_option('toz_rk_author_id', '');
 	add_option('toz_rk_post_categories', '');
+	add_option('toz_rk_last_event', '');
 }
 register_activation_hook( __FILE__, 'toz_rk_activate');
 
@@ -126,11 +127,12 @@ function toz_rk_admin() {
 	</div>
 <?php }
 
-//Automatic Posting
+//This sets up the wp-cron function to automatically check for new events and post them.
 function toz_rk_schedule_activate() {
 	wp_schedule_event(time(), 'hourly', 'toz_rk_schedule_event');
 }
 
+//This posts the latest event on a schedule.
 function toz_rk_schedule_event() {
 	$toz_schedule_rkAPI = new runkeeperAPI(
 		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
@@ -192,10 +194,7 @@ function toz_rk_schedule_event() {
 }
 
 
-function toz_rk_import_progress($rkActivity_uri) {
-	echo 'Importing Activity: ' . $rkActivity_uri . '<br />';
-}
-
+//This is how we import all the old posts.
 function toz_rk_import_old() {
 	$toz_import_rkAPI = new runkeeperAPI(
 		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
@@ -250,6 +249,11 @@ function toz_rk_import_old() {
 			echo $toz_import_rkAPI->api_last_error;
 			print_r($toz_import_rkAPI->request_log);
 		}
+}
+
+//A simple (awful) notifier to tell us what was imported).
+function toz_rk_import_progress($rkActivity_uri) {
+	echo 'Importing Activity: ' . $rkActivity_uri . '<br />';
 }
 
 //Upload Image and Set as Featured
