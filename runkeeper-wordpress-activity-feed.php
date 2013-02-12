@@ -61,7 +61,7 @@ function toz_rk_admin() {
 	if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_update_options' )){
 		update_option('toz_rk_author_id', $_POST['toz_rk_author_id']);
 		update_option('toz_rk_post_categories', $_POST['toz_rk_post_categories']);
-		//Activate Cron Job When This Happens
+		toz_rk_schedule_activate();
 	} else  if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_reset_options' )) {
 		update_option('toz_rk_access_token', '');
 		update_option('toz_rk_auth_code', '');
@@ -129,7 +129,11 @@ function toz_rk_admin() {
 
 //This sets up the wp-cron function to automatically check for new events and post them.
 function toz_rk_schedule_activate() {
-	wp_schedule_event(time(), 'hourly', 'toz_rk_schedule_event');
+	if ( !wp_next_scheduled( 'toz_rk_schedule_event' ) ) {
+		wp_schedule_event(time(), 'hourly', 'toz_rk_schedule_event');
+	} else {
+		//Do Nothing
+	}
 }
 
 //This posts the latest event on a schedule.
