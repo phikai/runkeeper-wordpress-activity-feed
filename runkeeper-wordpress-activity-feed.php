@@ -165,7 +165,7 @@ function toz_rk_schedule_event() {
 					$rkActivity_id = explode('/', $rkActivity_uri);
 					$rkActivity_id = $rkActivity_id[2];
 					
-					if ( $rkActivity_id > get_option('toz_rk_last_event') ) {
+					if ( intval($rkActivity_id) > intval(get_option('toz_rk_last_event')) ) {
 						$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
 						$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
@@ -192,7 +192,7 @@ function toz_rk_schedule_event() {
 						update_option('toz_rk_last_event', $rkActivity_id);
 						
 					} else {
-						//Do Nothing
+						update_option('toz_rk_schedule_result', 'failure: '.time())
 					}
 												
 				}
