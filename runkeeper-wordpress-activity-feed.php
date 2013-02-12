@@ -60,6 +60,7 @@ function toz_rk_admin() {
 	if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_update_options' )){
 		update_option('toz_rk_author_id', $_POST['toz_rk_author_id']);
 		update_option('toz_rk_post_categories', $_POST['toz_rk_post_categories']);
+		//Activate Cron Job When This Happens
 	} else  if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_reset_options' )) {
 		update_option('toz_rk_access_token', '');
 		update_option('toz_rk_auth_code', '');
