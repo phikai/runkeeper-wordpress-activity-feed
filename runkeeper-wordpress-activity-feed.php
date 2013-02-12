@@ -236,6 +236,4 @@ function toz_rk_featured_image( $image_url, $post_id ) {
 
 So get the latest activity and then store the activity ID in the database, then we check to see if the ID of an activity is greater than it... if its, we process that with cron... if not... then we ignore it. We'll keep doing this so we alyways get the latest post.
 
-Ultimately what this means is that the plugin is only good in moving forward... it won't work for past activities... we should write an import old activities function that goes and gets them... and posts them... shouldn't be too complicated...
-
 */
