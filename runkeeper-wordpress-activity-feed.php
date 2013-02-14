@@ -175,7 +175,7 @@ function toz_rk_schedule_event() {
 					
 					$toz_rk_post_import = array (
 						'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-						'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
+						'post_content'  => if(isset($rkActivity_detailed_array['notes']){$rkActivity_detailed_array['notes']} . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
 						'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
 						'post_status'   => 'publish',
 						'post_author'   => get_option('toz_rk_author_id'),
@@ -185,7 +185,7 @@ function toz_rk_schedule_event() {
 						
 					$post_id = wp_insert_post( $toz_rk_post_import );
 					
-					if ($rkActivity_detailed_array['images']['0']) {
+					if (isset($rkActivity_detailed_array['images']['0'])) {
 						$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
 						$image_url = $rkActivity_detailed_array_images['uri'];
 						toz_rk_featured_image( $image_url, $post_id );
@@ -238,7 +238,7 @@ function toz_rk_import_old() {
 							
 				$toz_rk_post_import = array (
 					'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-					'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
+					'post_content'  => if(isset($rkActivity_detailed_array['notes']){$rkActivity_detailed_array['notes']} . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
 					'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
 					'post_status'   => 'publish',
 					'post_author'   => get_option('toz_rk_author_id'),
@@ -248,7 +248,7 @@ function toz_rk_import_old() {
 				
 				$post_id = wp_insert_post( $toz_rk_post_import );
 					
-				if ($rkActivity_detailed_array['images']['0']) {
+				if (isset($rkActivity_detailed_array['images']['0'])) {
 					$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
 					$image_url = $rkActivity_detailed_array_images['uri'];
 					toz_rk_featured_image( $image_url, $post_id );
