@@ -173,9 +173,15 @@ function toz_rk_schedule_event() {
 
 					$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
 					
+					if ( !isset($rkActivity_detailed_array['notes']) ) {
+						$rkActivity_notes = '';
+					} else {
+						$rkActivity_notes = $rkActivity_detailed_array['notes'] . '<br />';
+					}
+					
 					$toz_rk_post_import = array (
 						'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-						'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
+						'post_content'  => $rkActivity_notes . '<ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
 						'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
 						'post_status'   => 'publish',
 						'post_author'   => get_option('toz_rk_author_id'),
@@ -235,10 +241,16 @@ function toz_rk_import_old() {
 				$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
 				$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
+				
+				if ( !isset($rkActivity_detailed_array['notes']) ) {
+					$rkActivity_notes = '';
+				} else {
+					$rkActivity_notes = $rkActivity_detailed_array['notes'] . '<br />';
+				}
 							
 				$toz_rk_post_import = array (
 					'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-					'post_content'  => $rkActivity_detailed_array['notes'] . '<br /><ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
+					'post_content'  => $rkActivity_notes . '<ul><li>Activity: ' . $rkActivity_detailed_array['type'] . '</li><li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' miles</li><li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li><li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li></ul>',
 					'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
 					'post_status'   => 'publish',
 					'post_author'   => get_option('toz_rk_author_id'),
