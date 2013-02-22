@@ -5,7 +5,7 @@ Plugin Name: RunKeeper WordPress Activity Feed
 Plugin URI: http://runkeeper.thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.2.2
+Version: 1.2.3
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -68,17 +68,17 @@ function toz_rk_admin() {
 	
 	//Update Plugin Options
 	if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_update_options' )){
-		update_option('toz_rk_author_id', $_POST['toz_rk_author_id']);
-		update_option('toz_rk_post_categories', $_POST['toz_rk_post_categories']);
-		update_option('toz_rk_post_options_notes', $_POST['toz_rk_post_options_notes']);
-		update_option('toz_rk_post_options_type', $_POST['toz_rk_post_options_type']);
-		update_option('toz_rk_post_options_distance', $_POST['toz_rk_post_options_distance']);
-		update_option('toz_rk_post_options_duration', $_POST['toz_rk_post_options_duration']);
-		update_option('toz_rk_post_options_speed', $_POST['toz_rk_post_options_speed']);
-		update_option('toz_rk_post_options_calories', $_POST['toz_rk_post_options_calories']);
-		update_option('toz_rk_post_options_heartrate', $_POST['toz_rk_post_options_heartrate']);
-		update_option('toz_rk_post_options_url', $_POST['toz_rk_post_options_url']);
-		update_option('toz_rk_post_options_time', $_POST['toz_rk_post_options_time']);
+		if isset($_POST['toz_rk_author_id']) { update_option('toz_rk_author_id', $_POST['toz_rk_author_id']); }
+		if isset($_POST['toz_rk_post_categories']) { update_option('toz_rk_post_categories', $_POST['toz_rk_post_categories']); }
+		if isset($_POST['toz_rk_post_options_notes']) { update_option('toz_rk_post_options_notes', $_POST['toz_rk_post_options_notes']); }
+		if isset($_POST['toz_rk_post_options_type']) { update_option('toz_rk_post_options_type', $_POST['toz_rk_post_options_type']); }
+		if isset($_POST['toz_rk_post_options_distance']) { update_option('toz_rk_post_options_distance', $_POST['toz_rk_post_options_distance']); }
+		if isset($_POST['toz_rk_post_options_duration']) { update_option('toz_rk_post_options_duration', $_POST['toz_rk_post_options_duration']); }
+		if isset($_POST['toz_rk_post_options_speed']) { update_option('toz_rk_post_options_speed', $_POST['toz_rk_post_options_speed']); }
+		if isset($_POST['toz_rk_post_options_calories']) { update_option('toz_rk_post_options_calories', $_POST['toz_rk_post_options_calories']); }
+		if isset($_POST['toz_rk_post_options_heartrate']) { update_option('toz_rk_post_options_heartrate', $_POST['toz_rk_post_options_heartrate']); }
+		if isset($_POST['toz_rk_post_options_url']) { update_option('toz_rk_post_options_url', $_POST['toz_rk_post_options_url']); }
+		if isset($_POST['toz_rk_post_options_time']) { update_option('toz_rk_post_options_time', $_POST['toz_rk_post_options_time']); }
 		toz_rk_schedule_activate();
 	} else  if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_reset_options' )) {
 		update_option('toz_rk_access_token', '');
