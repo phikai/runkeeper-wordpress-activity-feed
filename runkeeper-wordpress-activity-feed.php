@@ -5,7 +5,7 @@ Plugin Name: RunKeeper WordPress Activity Feed
 Plugin URI: http://runkeeper.thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.2.1
+Version: 1.2.2
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -241,31 +241,31 @@ function toz_rk_schedule_event() {
 		'pageSize' => '1'
 	);
 	$rkActivitiesFeedImport = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivityFeed','Read', '', '', $import_params);
-		if ($rkActivitiesFeedImport) {
-			$rkActivitiesFeedImport_array = (array) $rkActivitiesFeedImport;
-			foreach ($rkActivitiesFeedImport_array['items'] as $rkActivitiesItem) {
-				$rkActivity_uri = $rkActivitiesItem->uri;
+	if ($rkActivitiesFeedImport) {
+		$rkActivitiesFeedImport_array = (array) $rkActivitiesFeedImport;
+		foreach ($rkActivitiesFeedImport_array['items'] as $rkActivitiesItem) {
+			$rkActivity_uri = $rkActivitiesItem->uri;
 					
-				$rkActivity_id = explode('/', $rkActivity_uri);
-				$rkActivity_id = $rkActivity_id[2];
+			$rkActivity_id = explode('/', $rkActivity_uri);
+			$rkActivity_id = $rkActivity_id[2];
 					
-				if ( intval($rkActivity_id) > intval(get_option('toz_rk_last_event')) ) {
-					$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
-					$rkActivity_detailed_array = (array) $rkActivity_detailed;
+			if ( intval($rkActivity_id) > intval(get_option('toz_rk_last_event')) ) {
+				$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
+				$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
-					toz_rk_post($rkActivity_detailed_array);
+				toz_rk_post($rkActivity_detailed_array);
 						
-					update_option('toz_rk_last_event', $rkActivity_id);
+				update_option('toz_rk_last_event', $rkActivity_id);
 						
-				} else {
-					update_option('toz_rk_schedule_result', 'failure: '.time());
-				}
-												
+			} else {
+				update_option('toz_rk_schedule_result', 'failure: '.time());
 			}
-		} else {
-			echo $toz_schedule_rkAPI->api_last_error;
-			print_r($toz_schedule_rkAPI->request_log);
+											
 		}
+	} else {
+		echo $toz_schedule_rkAPI->api_last_error;
+		print_r($toz_schedule_rkAPI->request_log);
+	}
 }
 
 
@@ -289,22 +289,22 @@ function toz_rk_import_old() {
 		'pageSize' => '1000'
 	);
 	$rkActivitiesFeedImport = $toz_import_rkAPI->doRunkeeperRequest('FitnessActivityFeed','Read', '', '', $import_params);
-		if ($rkActivitiesFeedImport) {
-			$rkActivitiesFeedImport_array = (array) $rkActivitiesFeedImport;
-			foreach ($rkActivitiesFeedImport_array['items'] as $rkActivitiesItem) {
-				$rkActivity_uri = $rkActivitiesItem->uri;
-				$rkActivity_detailed = $toz_import_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
-				$rkActivity_detailed_array = (array) $rkActivity_detailed;
+	if ($rkActivitiesFeedImport) {
+		$rkActivitiesFeedImport_array = (array) $rkActivitiesFeedImport;
+		foreach ($rkActivitiesFeedImport_array['items'] as $rkActivitiesItem) {
+			$rkActivity_uri = $rkActivitiesItem->uri;
+			$rkActivity_detailed = $toz_import_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
+			$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
-				toz_rk_post($rkActivity_detailed_array);
+			toz_rk_post($rkActivity_detailed_array);
 					
-				toz_rk_import_progress($rkActivity_uri);							
+			toz_rk_import_progress($rkActivity_uri);							
 				
-			}
-		} else {
-			echo $toz_import_rkAPI->api_last_error;
-			print_r($toz_import_rkAPI->request_log);
 		}
+	} else {
+		echo $toz_import_rkAPI->api_last_error;
+		print_r($toz_import_rkAPI->request_log);
+	}
 }
 
 function toz_rk_post( $rkActivity_detailed_array ) {
