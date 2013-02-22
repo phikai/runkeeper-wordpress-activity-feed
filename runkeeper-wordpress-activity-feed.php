@@ -5,7 +5,7 @@ Plugin Name: RunKeeper WordPress Activity Feed
 Plugin URI: http://runkeeper.thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.1.5
+Version: 1.2.0
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -123,7 +123,7 @@ function toz_rk_admin() {
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_post_options">Post Options:</label></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_notes" value="<?php echo(get_option('toz_rk_post_options_notes')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_notes" value="true" class="code" <?php if ( get_option('toz_rk_post_options_notes') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity Notes</span>
 						</td>
 						
@@ -131,56 +131,56 @@ function toz_rk_admin() {
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_type" value="<?php echo(get_option('toz_rk_post_options_type')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_type" value="true" class="code" <?php if ( get_option('toz_rk_post_options_type') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity Type</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_distance" value="<?php echo(get_option('toz_rk_post_options_distance')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_distance" value="true" class="code" <?php if ( get_option('toz_rk_post_options_distance') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Total Distance</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_duration" value="<?php echo(get_option('toz_rk_post_options_duration')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_duration" value="true" class="code" <?php if ( get_option('toz_rk_post_options_duration') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Total Duration</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_speed" value="<?php echo(get_option('toz_rk_post_options_speed')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_speed" value="true" class="code" <?php if ( get_option('toz_rk_post_options_speed') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Average Speed</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_calories" value="<?php echo(get_option('toz_rk_post_options_calories')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_calories" value="true" class="code" <?php if ( get_option('toz_rk_post_options_calories') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Total Calories</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_heartrate" value="<?php echo(get_option('toz_rk_post_options_heartrate')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_heartrate" value="true" class="code" <?php if ( get_option('toz_rk_post_options_heartrate') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Heart Rate</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_url" value="<?php echo(get_option('toz_rk_post_options_url')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_url" value="true" class="code" <?php if ( get_option('toz_rk_post_options_url') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity URL</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_time" value="<?php echo(get_option('toz_rk_post_options_time')); ?>" class="code" />
+							<input type="checkbox" name="toz_rk_post_options_time" value="true" class="code" <?php if ( get_option('toz_rk_post_options_time') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Start Time</span>
 						</td>
 					</tr>
@@ -253,92 +253,7 @@ function toz_rk_schedule_event() {
 					$rkActivity_detailed = $toz_schedule_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
 					$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
-					$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
-					
-					$post_import_content = '';
-		
-					//Get all the Post Options and build the post_content
-					if ( !isset(get_option('toz_rk_post_options_notes')) ) {
-						if ( isset($rkActivity_detailed_array['notes']) ) {
-							$post_import_content .= $rkActivity_detailed_array['notes'] . '<br />';
-						} else {
-							$post_import_content .= '';
-						}
-					} else {
-						//Do Nothing
-					}
-					
-					if ( isset(get_option('toz_rk_post_options_type')) || isset(get_option('toz_rk_post_options_distance')) || isset(get_option('toz_rk_post_options_duration')) || isset(get_option('toz_rk_post_options_speed')) || isset(get_option('toz_rk_post_options_calories')) || isset(get_option('toz_rk_post_options_heartrate')) || isset(get_option('toz_rk_post_options_url')) || isset(get_option('toz_rk_post_options_time')) ) {
-						
-						$post_import_content .= '<ul>';
-						
-						if ( isset(get_option('toz_rk_post_options_type')) ) {
-							$post_import_content .= '<li>' . $rkActivity_detailed_array['type'] . '</li>';
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_distance')) ) {
-							$post_import_content .= '<li>' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . '</li>';
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_duration')) ) {
-							$post_import_content .= '<li>' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li>';
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_speed')) ) {
-							$post_import_content .= round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / date('H:i:s', $rkActivity_detailed_array['duration']);
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_calories')) ) {
-							$post_import_content .= '<li>' . $rkActivity_detailed_array['total_calories'] . '</li>';
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_heartrate')) ) {
-							$post_import_content .= '<li>' . $rkActivity_detailed_array['heart_rate'] . '</li>';
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_url')) ) {
-							$post_import_content .= '<li>' . $rkActivity_detailed_array['activity'] . '</li>';
-						} else {
-							//Do Nothing
-						}
-						if ( isset(get_option('toz_rk_post_options_time')) ) {
-							$post_import_content .= '<li>' . $rkActivity_detailed_array['start_time'] . '</li>';
-						} else {
-							//Do Nothing
-						}
-						
-						$post_import_content .= '</ul>';
-					
-					} else {
-						//Do Nothing
-					}
-					
-					
-					$toz_rk_post_import = array (
-						'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-						'post_content'  => $post_import_content,
-						'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
-						'post_status'   => 'publish',
-						'post_author'   => get_option('toz_rk_author_id'),
-						'post_category' => array(get_option('toz_rk_post_categories')),
-						'tags_input'    => $rkActivity_detailed_array['type']
-					);
-						
-					$post_id = wp_insert_post( $toz_rk_post_import );
-					
-					if (isset($rkActivity_detailed_array['images']['0'])) {
-						$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
-						$image_url = $rkActivity_detailed_array_images['uri'];
-						toz_rk_featured_image( $image_url, $post_id );
-					} else {
-						//Do Nothing
-					}
+					toz_rk_post($rkActivity_detailed_array);
 						
 					update_option('toz_rk_last_event', $rkActivity_id);
 						
@@ -371,7 +286,7 @@ function toz_rk_import_old() {
 
 	//Let's get bajillions (1000) items
 	$import_params = array (
-		'pageSize' => '1000'
+		'pageSize' => '1'
 	);
 	$rkActivitiesFeedImport = $toz_import_rkAPI->doRunkeeperRequest('FitnessActivityFeed','Read', '', '', $import_params);
 		if ($rkActivitiesFeedImport) {
@@ -381,92 +296,7 @@ function toz_rk_import_old() {
 				$rkActivity_detailed = $toz_import_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
 				$rkActivity_detailed_array = (array) $rkActivity_detailed;
 
-				$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
-				
-				$post_import_content = '';
-				
-				//Get all the Post Options and build the post_content
-				if ( empty(get_option('toz_rk_post_options_notes')) ) {
-					if ( isset($rkActivity_detailed_array['notes']) ) {
-						$post_import_content .= $rkActivity_detailed_array['notes'] . '<br />';
-					} else {
-						$post_import_content .= '';
-					}
-				} else {
-					//Do Nothing
-				}
-					
-				if ( isset(get_option('toz_rk_post_options_type')) || isset(get_option('toz_rk_post_options_distance')) || isset(get_option('toz_rk_post_options_duration')) || isset(get_option('toz_rk_post_options_speed')) || isset(get_option('toz_rk_post_options_calories')) || isset(get_option('toz_rk_post_options_heartrate')) || isset(get_option('toz_rk_post_options_url')) || isset(get_option('toz_rk_post_options_time')) ) {
-						
-					$post_import_content .= '<ul>';
-						
-					if ( isset(get_option('toz_rk_post_options_type')) ) {
-						$post_import_content .= '<li>' . $rkActivity_detailed_array['type'] . '</li>';
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_distance')) ) {
-						$post_import_content .= '<li>' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . '</li>';
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_duration')) ) {
-						$post_import_content .= '<li>' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li>';
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_speed')) ) {
-						$post_import_content .= round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / date('H:i:s', $rkActivity_detailed_array['duration']);
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_calories')) ) {
-						$post_import_content .= '<li>' . $rkActivity_detailed_array['total_calories'] . '</li>';
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_heartrate')) ) {
-						$post_import_content .= '<li>' . $rkActivity_detailed_array['heart_rate'] . '</li>';
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_url')) ) {
-						$post_import_content .= '<li>' . $rkActivity_detailed_array['activity'] . '</li>';
-					} else {
-						//Do Nothing
-					}
-					if ( isset(get_option('toz_rk_post_options_time')) ) {
-						$post_import_content .= '<li>' . $rkActivity_detailed_array['start_time'] . '</li>';
-					} else {
-						//Do Nothing
-					}
-						
-					$post_import_content .= '</ul>';
-					
-				} else {
-					//Do Nothing
-				}
-					
-					
-				$toz_rk_post_import = array (
-					'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
-					'post_content'  => $post_import_content,
-					'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
-					'post_status'   => 'publish',
-					'post_author'   => get_option('toz_rk_author_id'),
-					'post_category' => array(get_option('toz_rk_post_categories')),
-					'tags_input'    => $rkActivity_detailed_array['type']
-				);
-				
-				$post_id = wp_insert_post( $toz_rk_post_import );
-					
-				if (isset($rkActivity_detailed_array['images']['0'])) {
-					$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
-					$image_url = $rkActivity_detailed_array_images['uri'];
-					toz_rk_featured_image( $image_url, $post_id );
-				} else {
-					//Do Nothing
-				}
+				toz_rk_post($rkActivity_detailed_array);
 					
 				toz_rk_import_progress($rkActivity_uri);							
 				
@@ -475,6 +305,153 @@ function toz_rk_import_old() {
 			echo $toz_import_rkAPI->api_last_error;
 			print_r($toz_import_rkAPI->request_log);
 		}
+}
+
+function toz_rk_post( $rkActivity_detailed_array ) {
+	$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
+					
+	$post_import_content = '';
+		
+	//Get all the Post Options and build the post_content
+	$post_options = array (
+		'type'      => get_option('toz_rk_post_options_type'),
+		'distance'  => get_option('toz_rk_post_options_distance'),
+		'duration'  => get_option('toz_rk_post_options_duration'),
+		'speed'     => get_option('toz_rk_post_options_speed'),
+		'calories'  => get_option('toz_rk_post_options_calories'),
+		'heartrate' => get_option('toz_rk_post_options_heartrate'),
+		'url'       => get_option('toz_rk_post_options_url'),
+		'time'      => get_option('toz_rk_post_options_time')
+	);
+					
+	$post_options_notes = get_option('toz_rk_post_options_notes');
+						
+	if ( !empty($post_options_notes) ) {
+		if ( !empty($rkActivity_detailed_array['notes']) ) {
+			$post_import_content .= $rkActivity_detailed_array['notes'] . '<br />';
+		} else {
+			//Do Nothing
+		}
+	} else {
+		//Do Nothing
+	}
+					
+	if ( !empty($post_options) ) {
+						
+		$post_import_content .= '<ul>';
+						
+		if ( !empty($post_options['type']) ) {
+			if ( !empty($rkActivity_detailed_array['type']) ) {
+				$post_import_content .= '<li>Activity: ' . $rkActivity_detailed_array['type'] . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+		
+		if ( !empty($post_options['distance']) ) {
+			if ( !empty($rkActivity_detailed_array['total_distance']) ) {
+				$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		if ( !empty($post_options['duration']) ) {
+			if ( !empty($rkActivity_detailed_array['duration']) ) {
+				$post_import_content .= '<li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		if ( !empty($post_options['speed']) ) {
+			if ( !empty($rkActivity_detailed_array['duration']) && !empty($rkActivity_detailed_array['total_distance']) ) {
+				$hms = date('H:i:s', $rkActivity_detailed_array['duration']);
+				list($hours, $minutes, $seconds) = explode(":",$hms);
+				$total_seconds = $hours * 60 * 60 + $minutes * 60 + $seconds;
+							
+				$mps = round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / $total_seconds;
+				$mph = round($mps * 60 * 60, 2);
+							
+				$post_import_content .= '<li>Average Speed: ' . $mph . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		if ( !empty($post_options['calories']) ) {
+			if ( !empty($rkActivity_detailed_array['total_calories']) ) {
+				$post_import_content .= '<li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		if ( !empty($post_options['heartrate']) ) {
+			if ( !empty($rkActivity_detailed_array['heart_rate']) ) {
+				$post_import_content .= '<li>Heart Rate: ' . $rkActivity_detailed_array['heart_rate'] . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		if ( !empty($post_options['url']) ) {
+			if ( !empty($rkActivity_detailed_array['activity']) ) {
+				$post_import_content .= '<li>Activity Link: <a href="' . $rkActivity_detailed_array['activity'] . '">' . $rkActivity_detailed_array['activity'] . '</a></li>';;
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		if ( !empty($post_options['time']) ) {
+			if ( !empty($rkActivity_detailed_array['start_time']) ) {
+				$post_import_content .= '<li>Start Time: ' . $rkActivity_detailed_array['start_time'] . '</li>';
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+						
+		$post_import_content .= '</ul>';
+					
+	} else {
+		//Do Nothing
+	}
+					
+	$toz_rk_post_import = array (
+		'post_title'    => $rkActivity_detailed_array['type'] . ': ' . $rkActivity_detailed_array['start_time'],
+		'post_content'  => $post_import_content,
+		'post_date'     => date_format($publish_date, 'Y-m-d H:i:s'), //this is converted activity date
+		'post_status'   => 'publish',
+		'post_author'   => get_option('toz_rk_author_id'),
+		'post_category' => array(get_option('toz_rk_post_categories')),
+		'tags_input'    => $rkActivity_detailed_array['type']
+	);
+						
+	$post_id = wp_insert_post( $toz_rk_post_import );
+					
+	if (isset($rkActivity_detailed_array['images']['0'])) {
+		$rkActivity_detailed_array_images = (array) $rkActivity_detailed_array['images']['0'];
+		$image_url = $rkActivity_detailed_array_images['uri'];
+		toz_rk_featured_image( $image_url, $post_id );
+	} else {
+		//Do Nothing
+	}
 }
 
 //A simple (awful) notifier to tell us what was imported.
