@@ -61,7 +61,7 @@ echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
 #change directory permissions
-chmod -R g+x $SVNPATH/trunk/
+chmod -R -v g+x $SVNPATH/trunk/
 
 #if submodule exist, recursively check out their indexes
 echo "Getting Submodules"
