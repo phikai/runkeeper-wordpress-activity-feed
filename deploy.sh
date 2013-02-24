@@ -51,7 +51,11 @@ echo "Creating local copy of SVN repo ..."
 svn co $SVNURL $SVNPATH
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
-git checkout-index --recursive -a -f --prefix=$SVNPATH/trunk/
+git checkout-index -a -f --prefix=$SVNPATH/trunk/
+
+echo "Getting Submodules"
+git submodule init
+git submodule update
 
 echo "Ignoring github specific & deployment script"
 svn propset svn:ignore "deploy.sh
