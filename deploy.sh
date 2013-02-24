@@ -67,8 +67,8 @@ if [ -f ".gitmodules" ]
 		echo "Exporting the HEAD of each submodule from git to the trunk of SVN"
 		git submodule init
 		git submodule update
-		chmod -R g+x /tmp/runkeeper-activity-feed/trunk/includes/runkeeperAPI/
-		chmod -R g+x /tmp/runkeeper-activity-feed/trunk/includes/yaml/
+		rm -rf /tmp/runkeeper-activity-feed/trunk/includes/runkeeperAPI/
+		rm -rf /tmp/runkeeper-activity-feed/trunk/includes/yaml/
 		git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
 fi
 
