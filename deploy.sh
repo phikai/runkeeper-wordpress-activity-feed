@@ -60,8 +60,6 @@ README.md
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
-ls -l
-
 #if submodule exist, recursively check out their indexes
 echo "Getting Submodules"
 if [ -f ".gitmodules" ]
@@ -72,12 +70,10 @@ git submodule update
 git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
 fi
 
-svn delete $SVNPATH/assets/
-
 echo "Moving assets-wp-repo"
-#mkdir $SVNPATH/assets/
-#mv $SVNPATH/trunk/assets-wp-repo/* $SVNPATH/assets/
-#svn add $SVNPATH/assets/
+mkdir $SVNPATH/assets/
+mv $SVNPATH/trunk/assets-wp-repo/* $SVNPATH/assets/
+svn add $SVNPATH/assets/
 svn delete $SVNPATH/trunk/assets-wp-repo
 
 echo "Changing directory to SVN"
