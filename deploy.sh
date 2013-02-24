@@ -11,7 +11,7 @@ MAINFILE="runkeeper-wordpress-activity-feed.php" # this should be the name of yo
 GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
 
 # svn config
-SVNPATH="/tmp/$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
+SVNPATH="/Users/phikai/Dropbox/Development/WordPress/tmp/$PLUGINSLUG" # path to a temp SVN repo. No trailing slash required and don't add trunk.
 SVNURL="http://plugins.svn.wordpress.org/runkeeper-activity-feed/" # Remote SVN repo on wordpress.org, with no trailing slash
 SVNUSER="phikai" # your svn username
 
@@ -59,9 +59,6 @@ README.md
 #export git -> SVN
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
-
-#correct SVN permissions
-sudo chmod -R g+w $SVNPATH/trunk/
 
 #if submodule exist, recursively check out their indexes
 echo "Getting Submodules"
