@@ -65,9 +65,11 @@ echo "Getting Submodules"
 if [ -f ".gitmodules" ]
 	then
 		echo "Exporting the HEAD of each submodule from git to the trunk of SVN"
-		#git submodule init
-		#git submodule update
-		#git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
+		rm -rf /tmp/runkeeper-activity-feed/includes/runkeeperAPI/
+		rm -rf /tmp/runkeeper-activity-feed/includes/yaml/
+		git submodule init
+		git submodule update
+		git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
 fi
 
 echo "Moving assets-wp-repo"
@@ -94,6 +96,6 @@ cd $SVNPATH/tags/$NEWVERSION1
 svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
 
 echo "Removing temporary directory $SVNPATH"
-#rm -fr $SVNPATH/
+rm -fr $SVNPATH/
 
 echo "*** FIN ***"
