@@ -55,7 +55,7 @@ git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
 echo "Getting Submodules"
 git submodule init
-git submodule update $SVNPATH/trunk/
+git submodule update -- $SVNPATH/trunk/
 
 echo "Ignoring github specific & deployment script"
 svn propset svn:ignore "deploy.sh
