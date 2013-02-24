@@ -72,13 +72,13 @@ git submodule update
 git submodule foreach --recursive 'git checkout-index -a -f --prefix=$SVNPATH/trunk/$path/'
 fi
 
-svn delete $SVNPATH/assets/ --message "Deleting"
+svn delete $SVNPATH/assets/
 
 echo "Moving assets-wp-repo"
 #mkdir $SVNPATH/assets/
 #mv $SVNPATH/trunk/assets-wp-repo/* $SVNPATH/assets/
 #svn add $SVNPATH/assets/
-#svn delete $SVNPATH/trunk/assets-wp-repo
+svn delete $SVNPATH/trunk/assets-wp-repo
 
 echo "Changing directory to SVN"
 cd $SVNPATH/trunk/
