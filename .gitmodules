@@ -1,6 +1,0 @@
-[submodule "includes/runkeeperAPI"]
-	path = includes/runkeeperAPI
-	url = https://github.com/PierreRASO/runkeeperAPI.git
-[submodule "includes/yaml"]
-	path = includes/yaml
-	url = https://github.com/fabpot/yaml.git
