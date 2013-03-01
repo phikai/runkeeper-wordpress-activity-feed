@@ -17,11 +17,11 @@ The RunKeeper + WordPress Activity Feed plugin automatically posts RunKeeper Act
 Please help by reporting any bugs/feature request at the link below.
 
 Bugs: 
-*   Report at: [Github Issue Tracker](https://github.com/phikai/runkeeper-wordpress-activity-feed/issues)
+* Report at: [Github Issue Tracker](https://github.com/phikai/runkeeper-wordpress-activity-feed/issues)
 
 Questions/Comments:
-*   http://www.kaiarmstrong.com/contact/
-*   runkeeper@thinkonezero.com
+* http://www.kaiarmstrong.com/contact/
+* runkeeper@thinkonezero.com
 
 == Installation ==
 
@@ -46,7 +46,13 @@ None yet!
 
 == Changelog ==
 
+= 1.2.8 =
+* directly including libraries
+
 = 1.2.4 =
 * Initial Release
 
 == Upgrade Notice ==
+
+= 1.2.8 =
+* Fixes fatal error on plugin activation
