@@ -1,5 +1,0 @@
-<?php
-
-/*
-RunKeeper Activity Widget
-*/

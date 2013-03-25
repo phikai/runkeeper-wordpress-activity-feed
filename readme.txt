@@ -4,7 +4,7 @@ Donate link: http://runkeeper.thinkonezero.com
 Tags: runkeeper, widget, 
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.2.8
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,12 +14,18 @@ The RunKeeper + WordPress Activity Feed plugin automatically posts RunKeeper Act
 
 The RunKeeper + WordPress Activity Feed plugin automatically posts RunKeeper Activities straight to your blog. All you need to do is activate the plugin and connect your account. After that, track your activities with RunKeeper and they'll show up on your WordPress site for everyone to see!
 
+**NEW FEATURE**: RunKeeper Records Widget
+
+* Adds a new widget which allows to display your RunKeeper records in your blog sidebar.
+
 Please help by reporting any bugs/feature request at the link below.
 
-Bugs: 
+Bugs:
+
 * Report at: [Github Issue Tracker](https://github.com/phikai/runkeeper-wordpress-activity-feed/issues)
 
 Questions/Comments:
+
 * http://www.kaiarmstrong.com/contact/
 * runkeeper@thinkonezero.com
 
@@ -45,6 +51,9 @@ None yet!
 4. Plugin options for Posts
 
 == Changelog ==
+
+= 1.3.0 =
+* NEW FEATURE: RunKeeper Records Widget - List all your records for a specific activity on your sidebar.
 
 = 1.2.8 =
 * directly including libraries

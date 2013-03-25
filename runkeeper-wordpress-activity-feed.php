@@ -5,7 +5,7 @@ Plugin Name: RunKeeper WordPress Activity Feed
 Plugin URI: http://runkeeper.thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.2.8
+Version: 1.3.0
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -42,6 +42,9 @@ define('CONFIGPATH', TOZRKPATH.'includes/');
 
 require(YAMLPATH.'lib/sfYamlParser.php');
 require(RUNKEEPERAPIPATH.'lib/runkeeperAPI.class.php');
+
+//RunKeeper Widgets
+require('runkeeper-wordpress-records-widget.php');
 
 //Admin Interface
 function toz_rk_admin() {
