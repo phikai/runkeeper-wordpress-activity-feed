@@ -4,7 +4,7 @@ Donate link: http://runkeeper.thinkonezero.com
 Tags: runkeeper, widget, 
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ None yet!
 4. Plugin options for Posts
 
 == Changelog ==
+
+= 1.3.1=
+* BUG FIX: Update RunKeeper API Library with Records Method
 
 = 1.3.0 =
 * NEW FEATURE: RunKeeper Records Widget - List all your records for a specific activity on your sidebar.
