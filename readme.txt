@@ -4,7 +4,7 @@ Donate link: http://runkeeper.thinkonezero.com
 Tags: runkeeper, widget, 
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,9 @@ This section describes how to install the plugin and get it working.
 
 == Frequently Asked Questions ==
 
-None yet!
+= I get this error: "Fatal error: Call to undefined function date_create_from_format()" =
+
+This function was introduced in PHP 5.3, so you'll need to check with your hosting provider to make sure you're using at least PHP 5.3.
 
 == Screenshots ==
 
@@ -52,7 +54,10 @@ None yet!
 
 == Changelog ==
 
-= 1.3.1=
+= 1.4.0 =
+* NEW FEATURE: Single Activity Import based on Activity ID
+
+= 1.3.1 =
 * BUG FIX: Update RunKeeper API Library with Records Method
 
 = 1.3.0 =
