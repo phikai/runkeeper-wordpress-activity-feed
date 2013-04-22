@@ -5,7 +5,7 @@ Plugin Name: RunKeeper WordPress Activity Feed
 Plugin URI: http://runkeeper.thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.3.1
+Version: 1.4.0
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -38,7 +38,7 @@ function toz_rk_menu() {
 define('TOZRKPATH', plugin_dir_path(__FILE__));
 define('YAMLPATH', TOZRKPATH.'includes/yaml/');
 define('RUNKEEPERAPIPATH', TOZRKPATH.'includes/runkeeperAPI/');
-define('CONFIGPATH', TOZRKPATH.'includes/');
+define('TOZRKCONFIGPATH', TOZRKPATH.'includes/');
 
 require(YAMLPATH.'lib/sfYamlParser.php');
 require(RUNKEEPERAPIPATH.'lib/runkeeperAPI.class.php');
@@ -50,7 +50,7 @@ require('runkeeper-wordpress-records-widget.php');
 function toz_rk_admin() {
 	/* API initialization */
 	$toz_rkAPI = new runkeeperAPI(
-		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
+		TOZRKCONFIGPATH.'rk-api.yml'	/* api_conf_file */
 	);
 	if ($toz_rkAPI->api_created == false) {
 		echo 'error '.$toz_rkAPI->api_last_error; /* api creation problem */
@@ -196,6 +196,14 @@ function toz_rk_admin() {
 				<input type="hidden" name="action" value="toz_rk_reset_options" />
 				<input type="submit" class="button-primary" value="<?php _e('Reset Options') ?>" /></p>
 			</form></p>
+			<hr />
+			<p><form method="post" action="">
+				<p>Import a Single Post based on ID:
+				<input type="hidden" name="action" value="toz_rk_import_single" />
+				<input type="text" name="rkActivity_id" value="Activity ID" class="regular-text code" />
+				<input type="submit" class="button-primary" value="<?php _e('Import Single') ?>" /></p>
+			</form></p>
+			<hr />
 			<p><form method="post" action="">
 				<p>Import all (1000) of your previous activities: 
 				<input type="hidden" name="action" value="toz_rk_import_old" />
@@ -204,9 +212,12 @@ function toz_rk_admin() {
 			<hr />
 			<?php if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_import_old' )) { ?>
 				<h3>Historical Import</h3>
-				<?php toz_rk_import_old(); ?>
-			<?php } else {
-				//Do Nothing
+				<?php toz_rk_import_old(); 
+			} else if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_import_single' )) { ?>
+				<h3>Single Activity Import</h3>
+				<?php toz_rk_import_single($_POST['rkActivity_id']);
+			} else {
+				//DO NOTHING
 			}
 		} ?>
 	</div>
@@ -227,7 +238,7 @@ function toz_rk_schedule_activate() {
 //This posts the latest event on a schedule.
 function toz_rk_schedule_event() {
 	$toz_schedule_rkAPI = new runkeeperAPI(
-		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
+		TOZRKCONFIGPATH.'rk-api.yml'	/* api_conf_file */
 	);
 	if ($toz_schedule_rkAPI->api_created == false) {
 		echo 'error '.$toz_schedule_rkAPI->api_last_error; /* api creation problem */
@@ -271,11 +282,40 @@ function toz_rk_schedule_event() {
 	}
 }
 
+//Import a Single Event based on ID
+function toz_rk_import_single($rkActivity_id) {
+	$toz_import_single_rkAPI = new runkeeperAPI(
+		TOZRKCONFIGPATH.'rk-api.yml'	/* api_conf_file */
+	);
+	if ($toz_import_single_rkAPI->api_created == false) {
+		echo 'error '.$toz_import_single_rkAPI->api_last_error; /* api creation problem */
+		exit();
+	}
+
+	$toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
+	if ( !empty($toz_rk_auth_code) ) {
+		$toz_import_single_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ) );
+	}
+	
+	if ( !empty($rkActivity_id) ) {
+	
+		$rkActivity_uri = '/fitnessActivities/' . $rkActivity_id;
+
+		$rkActivity_detailed = $toz_import_single_rkAPI->doRunkeeperRequest('FitnessActivity','Read', '', $rkActivity_uri);
+		$rkActivity_detailed_array = (array) $rkActivity_detailed;
+
+		toz_rk_post($rkActivity_detailed_array);							
+				
+	} else {
+		echo $toz_import_single_rkAPI->api_last_error;
+		print_r($toz_import_single_rkAPI->request_log);
+	}
+}
 
 //This is how we import all the old posts.
 function toz_rk_import_old() {
 	$toz_import_rkAPI = new runkeeperAPI(
-		CONFIGPATH.'rk-api.yml'	/* api_conf_file */
+		TOZRKCONFIGPATH.'rk-api.yml'	/* api_conf_file */
 	);
 	if ($toz_import_rkAPI->api_created == false) {
 		echo 'error '.$toz_import_rkAPI->api_last_error; /* api creation problem */

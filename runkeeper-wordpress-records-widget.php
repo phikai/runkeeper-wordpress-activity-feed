@@ -37,7 +37,7 @@ class toz_rk_records_widget extends WP_Widget {
 		if ( empty( $toz_records_content) ) {
 
 			$toz_widget_rkAPI = new runkeeperAPI(
-				CONFIGPATH.'rk-api.yml'	/* api_conf_file */
+				TOZRKCONFIGPATH.'rk-api.yml'	/* api_conf_file */
 			);
 			if ($toz_widget_rkAPI->api_created == false) {
 				echo 'error '.$toz_widget_rkAPI->api_last_error; /* api creation problem */
@@ -103,7 +103,7 @@ class toz_rk_records_widget extends WP_Widget {
 		if ( empty( $rkActivities_array) ) {
 	
 			$toz_widget_form_rkAPI = new runkeeperAPI(
-				CONFIGPATH.'rk-api.yml'	/* api_conf_file */
+				TOZRKCONFIGPATH.'rk-api.yml'	/* api_conf_file */
 			);
 			if ($toz_widget_form_rkAPI->api_created == false) {
 				echo 'error '.$toz_widget_form_rkAPI->api_last_error; /* api creation problem */
