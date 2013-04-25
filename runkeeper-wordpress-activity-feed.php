@@ -25,6 +25,7 @@ function toz_rk_activate(){
 	add_option('toz_rk_post_options_url', '');
 	add_option('toz_rk_post_options_time', '');
 	add_option('toz_rk_last_event', '0');
+	add_option('toz_rk_units', 'standard');
 }
 register_activation_hook( __FILE__, 'toz_rk_activate');
 
@@ -82,6 +83,7 @@ function toz_rk_admin() {
 		if ( isset($_POST['toz_rk_post_options_heartrate']) ) { update_option('toz_rk_post_options_heartrate', $_POST['toz_rk_post_options_heartrate']); }
 		if ( isset($_POST['toz_rk_post_options_url']) ) { update_option('toz_rk_post_options_url', $_POST['toz_rk_post_options_url']); }
 		if ( isset($_POST['toz_rk_post_options_time']) ) { update_option('toz_rk_post_options_time', $_POST['toz_rk_post_options_time']); }
+		if ( isset($_POST['toz_rk_units']) ) { update_option('toz_rk_units', $_POST['toz_rk_units']); }
 		toz_rk_schedule_activate();
 	} else  if ( isset($_POST['action']) && ( $_POST['action'] == 'toz_rk_reset_options' )) {
 		update_option('toz_rk_access_token', '');
@@ -108,7 +110,7 @@ function toz_rk_admin() {
 			<hr />
 			<h3>Plugin Settings</h3>
 			<p><form method="post" action="">
-				<table class="form-table"><tbod>
+				<table class="form-table"><tbody>
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_author_id">Author ID:</label></th>
 						<td>
@@ -124,12 +126,25 @@ function toz_rk_admin() {
 						</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row"><label for="toz_rk_units">Units:</label></th>
+						<td>
+							<input type="radio" name="toz_rk_units" value="standard" class="code" <?php if ( get_option('toz_rk_units') == 'standard' ) { echo 'checked'; } else { } ?> />
+							<span class="description">Standard</span>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							<input type="radio" name="toz_rk_units" value="metric" class="code" <?php if ( get_option('toz_rk_units') == 'metric' ) { echo 'checked'; } else { } ?> />
+							<span class="description">Metric</span>
+						</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row"><label for="toz_rk_post_options">Post Options:</label></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_notes" value="true" class="code" <?php if ( get_option('toz_rk_post_options_notes') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity Notes</span>
 						</td>
-						
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
@@ -395,7 +410,13 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 		
 		if ( !empty($post_options['distance']) ) {
 			if ( !empty($rkActivity_detailed_array['total_distance']) ) {
-				$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . '</li>';
+				if ( get_option('toz_rk_units') == 'standard' ) {
+					$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' mi</li>'; //Meters * Miles
+				} else if ( get_option('toz_rk_units') == 'metric' ) {
+					$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']/1000, 2) . ' km</li>'; //Meters / KM
+				} else {
+					$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' mi</li>'; //Default to Standard
+				}
 			} else {
 				//Do Nothing
 			}
@@ -418,11 +439,21 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 				$hms = date('H:i:s', $rkActivity_detailed_array['duration']);
 				list($hours, $minutes, $seconds) = explode(":",$hms);
 				$total_seconds = $hours * 60 * 60 + $minutes * 60 + $seconds;
-							
-				$mps = round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / $total_seconds;
-				$mph = round($mps * 60 * 60, 2);
-							
-				$post_import_content .= '<li>Average Speed: ' . $mph . '</li>';
+				
+				if ( get_option('toz_rk_units') == 'standard' ) {
+					$dps = round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / $total_seconds;
+					$sph = round($dps * 60 * 60, 2);
+					$post_import_content .= '<li>Average Speed: ' . $sph . ' mph</li>';
+				} else if ( get_option('toz_rk_units') == 'metric' ) {
+					$dps = round($rkActivity_detailed_array['total_distance']/1000, 2) / $total_seconds;
+					$sph = round($dps * 60 * 60, 2);
+					$post_import_content .= '<li>Average Speed: ' . $sph . ' kmh</li>';
+				} else {
+					$dps = round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / $total_seconds;
+					$sph = round($dps * 60 * 60, 2);
+					$post_import_content .= '<li>Average Speed: ' . $sph . ' mph</li>';
+				}			
+				
 			} else {
 				//Do Nothing
 			}

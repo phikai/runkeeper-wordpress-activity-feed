@@ -48,6 +48,15 @@ class toz_rk_records_widget extends WP_Widget {
 			if ( !empty($toz_rk_auth_code) ) {
 				$toz_widget_rkAPI->setRunkeeperToken( get_option( 'toz_rk_access_token' ) );
 			}
+			
+			//Get Unit Options
+			if ( get_option('toz_rk_units') == 'standard' ) {
+				$toz_rk_units = 'mi';
+			} else if ( get_option('toz_rk_units') == 'metric' ) {
+				$toz_rk_units = 'km';
+			} else {
+				$toz_rk_units = 'mi';
+			}
 		
 			$rkRecordsFeed = $toz_widget_rkAPI->doRunkeeperRequest('Records','Read');
 			if ($rkRecordsFeed) {
@@ -57,13 +66,13 @@ class toz_rk_records_widget extends WP_Widget {
 						$x = 0;
 						foreach ($rkRecordsFeed[$i] as $rkRecordsActivity) {
 							$toz_records_content = '<ul>';
-							$toz_records_content .= '<li>Best Activity: '.round($rkRecordsActivity[0]->value, 2).' miles</li>';
-							$toz_records_content .= '<li>Best Week: '.round($rkRecordsActivity[1]->value, 2).' miles</li>';
-							$toz_records_content .= '<li>Last Week: '.round($rkRecordsActivity[2]->value, 2).' miles</li>';
-							$toz_records_content .= '<li>This Week: '.round($rkRecordsActivity[3]->value, 2).' miles</li>';
-							$toz_records_content .= '<li>Best Month: '.round($rkRecordsActivity[4]->value, 2).' miles</li>';
-							$toz_records_content .= '<li>Last Month: '.round($rkRecordsActivity[5]->value, 2).' miles</li>';
-							$toz_records_content .= '<li>This Month: '.round($rkRecordsActivity[6]->value, 2).' miles</li>';
+							$toz_records_content .= '<li>Best Activity: '.round($rkRecordsActivity[0]->value, 2).' ' . $toz_rk_units . '</li>';
+							$toz_records_content .= '<li>Best Week: '.round($rkRecordsActivity[1]->value, 2).' ' . $toz_rk_units . '</li>';
+							$toz_records_content .= '<li>Last Week: '.round($rkRecordsActivity[2]->value, 2).' ' . $toz_rk_units . '</li>';
+							$toz_records_content .= '<li>This Week: '.round($rkRecordsActivity[3]->value, 2).' ' . $toz_rk_units . '</li>';
+							$toz_records_content .= '<li>Best Month: '.round($rkRecordsActivity[4]->value, 2).' ' . $toz_rk_units . '</li>';
+							$toz_records_content .= '<li>Last Month: '.round($rkRecordsActivity[5]->value, 2).' ' . $toz_rk_units . '</li>';
+							$toz_records_content .= '<li>This Month: '.round($rkRecordsActivity[6]->value, 2).' ' . $toz_rk_units . '</li>';
 							$toz_records_content .= '</ul>';
 					
 							//Weird "bug" with loop executing twice... this stops that.
