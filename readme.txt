@@ -4,7 +4,7 @@ Donate link: http://runkeeper.thinkonezero.com
 Tags: runkeeper, widget, 
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,10 @@ The RunKeeper + WordPress Activity Feed plugin automatically posts RunKeeper Act
 == Description ==
 
 The RunKeeper + WordPress Activity Feed plugin automatically posts RunKeeper Activities straight to your blog. All you need to do is activate the plugin and connect your account. After that, track your activities with RunKeeper and they'll show up on your WordPress site for everyone to see!
+
+**NEW FEATURE**: Metric Unit Support
+
+* Post Options and the Widget now support the use of metric units, just update your options!
 
 **NEW FEATURE**: RunKeeper Records Widget
 
@@ -53,6 +57,9 @@ This function was introduced in PHP 5.3, so you'll need to check with your hosti
 4. Plugin options for Posts
 
 == Changelog ==
+
+= 1.5.0 =
+* NEW FEATURE: Metric Unit Support for Posts and Widget
 
 = 1.4.0 =
 * NEW FEATURE: Single Activity Import based on Activity ID
