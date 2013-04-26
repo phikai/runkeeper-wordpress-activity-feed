@@ -110,6 +110,8 @@ function toz_rk_admin() {
 			<hr />
 			<h3>Plugin Settings</h3>
 			<p><form method="post" action="">
+			
+				<!-- Author Options -->
 				<table class="form-table"><tbody>
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_author_id">Author ID:</label></th>
@@ -125,36 +127,35 @@ function toz_rk_admin() {
 							<span class="description">Comma separated list of Post Categories for posts. example: <code>8,3,26</code></span>
 						</td>
 					</tr>
+				</tbody></table>
+				
+				<!-- Units Table -->
+				<table class="form-table"><tbody>
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_units">Units:</label></th>
-						<td>
+						<td width="200px">
 							<input type="radio" name="toz_rk_units" value="standard" class="code" <?php if ( get_option('toz_rk_units') == 'standard' ) { echo 'checked'; } else { } ?> />
 							<span class="description">Standard</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
 						<td>
 							<input type="radio" name="toz_rk_units" value="metric" class="code" <?php if ( get_option('toz_rk_units') == 'metric' ) { echo 'checked'; } else { } ?> />
 							<span class="description">Metric</span>
 						</td>
 					</tr>
+				</tbody></table>
+				
+				<!-- Post Content Options //3 Columns -->
+				<table class="form-table"><tbody>
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_post_options">Post Options:</label></th>
-						<td>
+						<td width="200px">
 							<input type="checkbox" name="toz_rk_post_options_notes" value="true" class="code" <?php if ( get_option('toz_rk_post_options_notes') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity Notes</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
-						<td>
+						<td width="200px">
 							<input type="checkbox" name="toz_rk_post_options_type" value="true" class="code" <?php if ( get_option('toz_rk_post_options_type') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity Type</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_distance" value="true" class="code" <?php if ( get_option('toz_rk_post_options_distance') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Total Distance</span>
@@ -166,16 +167,10 @@ function toz_rk_admin() {
 							<input type="checkbox" name="toz_rk_post_options_duration" value="true" class="code" <?php if ( get_option('toz_rk_post_options_duration') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Total Duration</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_speed" value="true" class="code" <?php if ( get_option('toz_rk_post_options_speed') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Average Speed</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_calories" value="true" class="code" <?php if ( get_option('toz_rk_post_options_calories') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Total Calories</span>
@@ -187,22 +182,17 @@ function toz_rk_admin() {
 							<input type="checkbox" name="toz_rk_post_options_heartrate" value="true" class="code" <?php if ( get_option('toz_rk_post_options_heartrate') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Heart Rate</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_url" value="true" class="code" <?php if ( get_option('toz_rk_post_options_url') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity URL</span>
 						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_time" value="true" class="code" <?php if ( get_option('toz_rk_post_options_time') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Start Time</span>
 						</td>
 					</tr>
 				</tbody></table>
+				
 				<input type="hidden" name="action" value="toz_rk_update_options" />
 				<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" /></p>
 			</form></p>
