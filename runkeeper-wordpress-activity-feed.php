@@ -5,7 +5,7 @@ Plugin Name: RunKeeper WordPress Activity Feed
 Plugin URI: http://runkeeper.thinkonezero.com
 Description: A plugin to automatically draft posts of all your Runkeeper Activities.
 Author: A. Kai Armstrong
-Version: 1.5.0
+Version: 1.6.0
 Author URI: http://www.kaiarmstrong.com
 */
 
@@ -20,6 +20,7 @@ function toz_rk_activate(){
 	add_option('toz_rk_post_options_distance', '');
 	add_option('toz_rk_post_options_duration', '');
 	add_option('toz_rk_post_options_speed', '');
+	add_option('toz_rk_post_options_pace', '');
 	add_option('toz_rk_post_options_calories', '');
 	add_option('toz_rk_post_options_heartrate', '');
 	add_option('toz_rk_post_options_url', '');
@@ -79,6 +80,7 @@ function toz_rk_admin() {
 		if ( isset($_POST['toz_rk_post_options_distance']) ) { update_option('toz_rk_post_options_distance', $_POST['toz_rk_post_options_distance']); }
 		if ( isset($_POST['toz_rk_post_options_duration']) ) { update_option('toz_rk_post_options_duration', $_POST['toz_rk_post_options_duration']); }
 		if ( isset($_POST['toz_rk_post_options_speed']) ) { update_option('toz_rk_post_options_speed', $_POST['toz_rk_post_options_speed']); }
+		if ( isset($_POST['toz_rk_post_options_pace']) ) { update_option('toz_rk_post_options_pace', $_POST['toz_rk_post_options_pace']); }
 		if ( isset($_POST['toz_rk_post_options_calories']) ) { update_option('toz_rk_post_options_calories', $_POST['toz_rk_post_options_calories']); }
 		if ( isset($_POST['toz_rk_post_options_heartrate']) ) { update_option('toz_rk_post_options_heartrate', $_POST['toz_rk_post_options_heartrate']); }
 		if ( isset($_POST['toz_rk_post_options_url']) ) { update_option('toz_rk_post_options_url', $_POST['toz_rk_post_options_url']); }
@@ -172,12 +174,16 @@ function toz_rk_admin() {
 							<span class="description">Average Speed</span>
 						</td>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_calories" value="true" class="code" <?php if ( get_option('toz_rk_post_options_calories') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Total Calories</span>
+							<input type="checkbox" name="toz_rk_post_options_pace" value="true" class="code" <?php if ( get_option('toz_rk_post_options_pace') == true ) { echo 'checked'; } else { } ?> />
+							<span class="description">Average Pace</span>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
+						<td>
+							<input type="checkbox" name="toz_rk_post_options_calories" value="true" class="code" <?php if ( get_option('toz_rk_post_options_calories') == true ) { echo 'checked'; } else { } ?> />
+							<span class="description">Total Calories</span>
+						</td>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_heartrate" value="true" class="code" <?php if ( get_option('toz_rk_post_options_heartrate') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Heart Rate</span>
@@ -186,6 +192,9 @@ function toz_rk_admin() {
 							<input type="checkbox" name="toz_rk_post_options_url" value="true" class="code" <?php if ( get_option('toz_rk_post_options_url') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Activity URL</span>
 						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
 						<td>
 							<input type="checkbox" name="toz_rk_post_options_time" value="true" class="code" <?php if ( get_option('toz_rk_post_options_time') == true ) { echo 'checked'; } else { } ?> />
 							<span class="description">Start Time</span>
@@ -356,6 +365,7 @@ function toz_rk_import_old() {
 }
 
 function toz_rk_post( $rkActivity_detailed_array ) {
+
 	$publish_date = date_create_from_format('*, j M Y H:i:s', $rkActivity_detailed_array['start_time']);
 					
 	$post_import_content = '';
@@ -366,6 +376,7 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 		'distance'  => get_option('toz_rk_post_options_distance'),
 		'duration'  => get_option('toz_rk_post_options_duration'),
 		'speed'     => get_option('toz_rk_post_options_speed'),
+		'pace'      => get_option('toz_rk_post_options_pace'),
 		'calories'  => get_option('toz_rk_post_options_calories'),
 		'heartrate' => get_option('toz_rk_post_options_heartrate'),
 		'url'       => get_option('toz_rk_post_options_url'),
@@ -431,17 +442,44 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 				$total_seconds = $hours * 60 * 60 + $minutes * 60 + $seconds;
 				
 				if ( get_option('toz_rk_units') == 'standard' ) {
-					$dps = round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / $total_seconds;
+					$dps = round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2) / $total_seconds;
 					$sph = round($dps * 60 * 60, 2);
 					$post_import_content .= '<li>Average Speed: ' . $sph . ' mph</li>';
 				} else if ( get_option('toz_rk_units') == 'metric' ) {
-					$dps = round($rkActivity_detailed_array['total_distance']/1000, 2) / $total_seconds;
+					$dps = round($rkActivity_detailed_array['total_distance'] / 1000, 2) / $total_seconds;
 					$sph = round($dps * 60 * 60, 2);
 					$post_import_content .= '<li>Average Speed: ' . $sph . ' kmh</li>';
 				} else {
-					$dps = round($rkActivity_detailed_array['total_distance']*0.00062137, 2) / $total_seconds;
+					$dps = round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2) / $total_seconds;
 					$sph = round($dps * 60 * 60, 2);
 					$post_import_content .= '<li>Average Speed: ' . $sph . ' mph</li>';
+				}			
+				
+			} else {
+				//Do Nothing
+			}
+		} else {
+			//Do Nothing
+		}
+		
+		if ( !empty($post_options['pace']) ) {
+			if ( !empty($rkActivity_detailed_array['duration']) && !empty($rkActivity_detailed_array['total_distance']) ) {
+				$hms = date('H:i:s', $rkActivity_detailed_array['duration']);
+				list($hours, $minutes, $seconds) = explode(":",$hms);
+				$total_seconds = $hours * 60 * 60 + $minutes * 60 + $seconds;
+				
+				if ( get_option('toz_rk_units') == 'standard' ) {
+					$pps = $total_seconds / round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2);
+					$ppm = date('i:s', $pps);
+					$post_import_content .= '<li>Average Pace: ' . $ppm . ' min/mi</li>';
+				} else if ( get_option('toz_rk_units') == 'metric' ) {
+					$pps = $total_seconds / round($rkActivity_detailed_array['total_distance'] / 1000, 2);
+					$ppm = date('i:s', $pps);
+					$post_import_content .= '<li>Average Pace: ' . $ppm . ' min/km</li>';
+				} else {
+					$pps = $total_seconds / round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2);
+					$ppm = date('i:s', $pps);
+					$post_import_content .= '<li>Average Pace: ' . $ppm . ' min/mi</li>';
 				}			
 				
 			} else {
