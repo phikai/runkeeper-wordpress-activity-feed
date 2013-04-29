@@ -129,18 +129,20 @@ class toz_rk_records_widget extends WP_Widget {
 			if ($rkRecordsFeed) {
 				$i = 0;
 				$rkActivities_array = array();
-				while ($rkRecordsFeed[$i]->activity_type != NULL) {
-					$x=0;
-					foreach ($rkRecordsFeed[$i] as $rkRecordsActivity) {
-						array_push($rkActivities_array, $rkRecordsFeed[$i]->activity_type);
+				if ( !empty($rkRecordsFeed[$i]->activity_type) ) {
+					while ($rkRecordsFeed[$i]->activity_type != NULL) {
+						$x=0;
+						foreach ($rkRecordsFeed[$i] as $rkRecordsActivity) {
+							array_push($rkActivities_array, $rkRecordsFeed[$i]->activity_type);
 					
-						//Weird "bug" with loop executing twice... this stops that.
-						if ($x == 0) {
-							break;
+							//Weird "bug" with loop executing twice... this stops that.
+							if ($x == 0) {
+								break;
+							}
 						}
 					}
-				$i++;
 				}
+				$i++;
 			}
 		
 			set_transient( 'rkActivities-array', $rkActivities_array, DAY_IN_SECONDS );
