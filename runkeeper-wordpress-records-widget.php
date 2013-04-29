@@ -61,28 +61,29 @@ class toz_rk_records_widget extends WP_Widget {
 			$rkRecordsFeed = $toz_widget_rkAPI->doRunkeeperRequest('Records','Read');
 			if ($rkRecordsFeed) {
 				$i = 0;
-				while ($rkRecordsFeed[$i]->activity_type != NULL) {
-					if ($rkRecordsFeed[$i]->activity_type == $activity_type) {
-						$x = 0;
-						foreach ($rkRecordsFeed[$i] as $rkRecordsActivity) {
-							$toz_records_content = '<ul>';
-							$toz_records_content .= '<li>Best Activity: '.round($rkRecordsActivity[0]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '<li>Best Week: '.round($rkRecordsActivity[1]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '<li>Last Week: '.round($rkRecordsActivity[2]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '<li>This Week: '.round($rkRecordsActivity[3]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '<li>Best Month: '.round($rkRecordsActivity[4]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '<li>Last Month: '.round($rkRecordsActivity[5]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '<li>This Month: '.round($rkRecordsActivity[6]->value, 2).' ' . $toz_rk_units . '</li>';
-							$toz_records_content .= '</ul>';
+				if ( !empty($rkRecordsFeed[$i]->activity_type) ) {
+					while ($rkRecordsFeed[$i]->activity_type != NULL) {
+						if ($rkRecordsFeed[$i]->activity_type == $activity_type) {
+							$x = 0;
+							foreach ($rkRecordsFeed[$i] as $rkRecordsActivity) {
+								$toz_records_content = '<ul>';
+								$toz_records_content .= '<li>Best Activity: '.round($rkRecordsActivity[0]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '<li>Best Week: '.round($rkRecordsActivity[1]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '<li>Last Week: '.round($rkRecordsActivity[2]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '<li>This Week: '.round($rkRecordsActivity[3]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '<li>Best Month: '.round($rkRecordsActivity[4]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '<li>Last Month: '.round($rkRecordsActivity[5]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '<li>This Month: '.round($rkRecordsActivity[6]->value, 2).' ' . $toz_rk_units . '</li>';
+								$toz_records_content .= '</ul>';
 					
-							//Weird "bug" with loop executing twice... this stops that.
-							if ($x == 0) {
-								break;
+								//Weird "bug" with loop executing twice... this stops that.
+								if ($x == 0) {
+									break;
+								}
 							}
-					
 						}
-					}
-					$i++;	
+					}	
+					$i++;
 				}
 				set_transient( 'toz-records-content-' . $activity_type, $toz_records_content, HOUR_IN_SECONDS );
 			}
