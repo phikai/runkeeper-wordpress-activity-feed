@@ -4,7 +4,7 @@ Donate link: http://runkeeper.thinkonezero.com
 Tags: runkeeper, widget, 
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ This function was introduced in PHP 5.3, so you'll need to check with your hosti
 4. Plugin options for Posts
 
 == Changelog ==
+
+= 1.6.2 =
+* BUG FIX: HeartRate Data Should Work
 
 = 1.6.2 =
 * BUG FIX: Correct Notice in Widget
