@@ -137,8 +137,8 @@ class toz_rk_records_widget extends WP_Widget {
 							break;
 						}
 					}
+					$i++;
 				}
-				$i++;
 			}
 		
 			set_transient( 'rkActivities-array', $rkActivities_array, DAY_IN_SECONDS );

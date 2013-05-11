@@ -58,7 +58,10 @@ This function was introduced in PHP 5.3, so you'll need to check with your hosti
 
 == Changelog ==
 
-= 1.6.2 =
+= 1.6.4 =
+* BUG FIX: Fix in Widget Loop
+
+= 1.6.3 =
 * BUG FIX: HeartRate Data Should Work
 
 = 1.6.2 =
