@@ -118,7 +118,11 @@ function toz_rk_admin() {
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_author_id">Author ID:</label></th>
 						<td>
-							<input type="number" name="toz_rk_author_id" value="<?php echo(get_option('toz_rk_author_id')); ?>" class="regular-text code" />
+							<select name="toz_rk_author_id">
+								<?php foreach(get_users() as $user):?>
+									<option value="<?php echo $user->data->ID;?>" <?php echo (get_option('toz_rk_author_id') == $user->data->ID ? 'selected="selected"' : ''); ?>><?php echo $user->data->display_name;?></option>
+								<?php endforeach;?>
+							</select>
 							<span class="description">WordPress Author ID of the author who will make posts.</span>
 						</td>
 					</tr>
