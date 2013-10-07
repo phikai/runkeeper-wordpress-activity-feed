@@ -140,12 +140,12 @@ function toz_rk_admin() {
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_units">Units:</label></th>
 						<td width="200px">
-							<input type="radio" name="toz_rk_units" value="standard" class="code" <?php if ( get_option('toz_rk_units') == 'standard' ) { echo 'checked'; } else { } ?> />
-							<span class="description">Standard</span>
+							<input id="rk_units_standard" type="radio" name="toz_rk_units" value="standard" class="code" <?php if ( get_option('toz_rk_units') == 'standard' ) { echo 'checked'; } else { } ?> />
+							<label for="rk_units_standard" class="description">Standard</label>
 						</td>
 						<td>
-							<input type="radio" name="toz_rk_units" value="metric" class="code" <?php if ( get_option('toz_rk_units') == 'metric' ) { echo 'checked'; } else { } ?> />
-							<span class="description">Metric</span>
+							<input id="rk_units_metric" type="radio" name="toz_rk_units" value="metric" class="code" <?php if ( get_option('toz_rk_units') == 'metric' ) { echo 'checked'; } else { } ?> />
+							<label for="rk_units_metric" class="description">Metric</label;>
 						</td>
 					</tr>
 				</tbody></table>
@@ -155,53 +155,53 @@ function toz_rk_admin() {
 					<tr valign="top">
 						<th scope="row"><label for="toz_rk_post_options">Post Options:</label></th>
 						<td width="200px">
-							<input type="checkbox" name="toz_rk_post_options_notes" value="true" class="code" <?php if ( get_option('toz_rk_post_options_notes') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Activity Notes</span>
+							<input id="options_activity_notes" type="checkbox" name="toz_rk_post_options_notes" value="true" class="code" <?php if ( get_option('toz_rk_post_options_notes') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_activity_notes">Activity Notes</label>
 						</td>
 						<td width="200px">
-							<input type="checkbox" name="toz_rk_post_options_type" value="true" class="code" <?php if ( get_option('toz_rk_post_options_type') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Activity Type</span>
+							<input id="options_type" type="checkbox" name="toz_rk_post_options_type" value="true" class="code" <?php if ( get_option('toz_rk_post_options_type') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_type">Activity Type</label>
 						</td>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_distance" value="true" class="code" <?php if ( get_option('toz_rk_post_options_distance') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Total Distance</span>
-						</td>
-					</tr>
-					<tr valign="top">
-						<th scope="row"></th>
-						<td>
-							<input type="checkbox" name="toz_rk_post_options_duration" value="true" class="code" <?php if ( get_option('toz_rk_post_options_duration') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Total Duration</span>
-						</td>
-						<td>
-							<input type="checkbox" name="toz_rk_post_options_speed" value="true" class="code" <?php if ( get_option('toz_rk_post_options_speed') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Average Speed</span>
-						</td>
-						<td>
-							<input type="checkbox" name="toz_rk_post_options_pace" value="true" class="code" <?php if ( get_option('toz_rk_post_options_pace') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Average Pace</span>
+							<input id="options_distance" type="checkbox" name="toz_rk_post_options_distance" value="true" class="code" <?php if ( get_option('toz_rk_post_options_distance') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_distance">Total Distance</label>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_calories" value="true" class="code" <?php if ( get_option('toz_rk_post_options_calories') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Total Calories</span>
+							<input id="options_duration" type="checkbox" name="toz_rk_post_options_duration" value="true" class="code" <?php if ( get_option('toz_rk_post_options_duration') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_duration">Total Duration</label>
 						</td>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_heartrate" value="true" class="code" <?php if ( get_option('toz_rk_post_options_heartrate') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Heart Rate</span>
+							<input id="options_speed" type="checkbox" name="toz_rk_post_options_speed" value="true" class="code" <?php if ( get_option('toz_rk_post_options_speed') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_speed">Average Speed</label>
 						</td>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_url" value="true" class="code" <?php if ( get_option('toz_rk_post_options_url') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Activity URL</span>
+							<input id="options_pace" type="checkbox" name="toz_rk_post_options_pace" value="true" class="code" <?php if ( get_option('toz_rk_post_options_pace') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_pace">Average Pace</label>
 						</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row"></th>
 						<td>
-							<input type="checkbox" name="toz_rk_post_options_time" value="true" class="code" <?php if ( get_option('toz_rk_post_options_time') == true ) { echo 'checked'; } else { } ?> />
-							<span class="description">Start Time</span>
+							<input id="options_calories" type="checkbox" name="toz_rk_post_options_calories" value="true" class="code" <?php if ( get_option('toz_rk_post_options_calories') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_calories">Total Calories</label>
+						</td>
+						<td>
+							<input id="options_heartrate" type="checkbox" name="toz_rk_post_options_heartrate" value="true" class="code" <?php if ( get_option('toz_rk_post_options_heartrate') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_heartrate">Heart Rate</label>
+						</td>
+						<td>
+							<input id="options_url" type="checkbox" name="toz_rk_post_options_url" value="true" class="code" <?php if ( get_option('toz_rk_post_options_url') == true ) { echo 'checked'; } else { } ?> />
+							<label class="description" for="options_url">Activity URL</label>
+						</td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"></th>
+						<td>
+							<input id="options_time" type="checkbox" name="toz_rk_post_options_time" value="true" class="code" <?php if ( get_option('toz_rk_post_options_time') == true ) { echo 'checked'; } else { } ?> />
+							<span class="description" for="options_time">Start Time</span>
 						</td>
 					</tr>
 				</tbody></table>
