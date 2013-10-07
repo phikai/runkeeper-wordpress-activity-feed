@@ -101,7 +101,7 @@ function toz_rk_admin() {
 		<h2>RunKeeper WordPress Activity Feed</h2>
 		<?php $toz_rk_auth_code = get_option( 'toz_rk_auth_code' );
 		if ( empty($toz_rk_auth_code) ) {  ?>
-			<p>Let's authorize RunKeeper: <a href="http://runkeeper.thinkonezero.com"><img src="<?php echo plugins_url( 'includes/images/runkeeper-connect-blue-white.png' , __FILE__ ); ?>" width="200" height="26" alt="Connect to RunKeeper" style="padding-left:10px" /></a></p>
+			<p>Let's authorize RunKeeper: <a href="http://runkeeper.thinkonezero.com/"><img src="<?php echo plugins_url( 'includes/images/runkeeper-connect-blue-white.png' , __FILE__ ); ?>" width="200" height="26" alt="Connect to RunKeeper" style="padding-left:10px" /></a></p>
 		<?php } else {
 			$rkProfile = $toz_rkAPI->doRunkeeperRequest('Profile','Read');
 			$rkProfile_array = (array) $rkProfile; ?>
