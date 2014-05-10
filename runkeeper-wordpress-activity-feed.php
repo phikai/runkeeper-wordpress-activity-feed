@@ -401,11 +401,11 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 
 	if ( !empty($post_options) ) {
 
-		$post_import_content .= '<ul>';
+		$post_import_content .= '<ul class="rk-list">';
 
 		if ( !empty($post_options['type']) ) {
 			if ( !empty($rkActivity_detailed_array['type']) ) {
-				$post_import_content .= '<li>Activity: ' . $rkActivity_detailed_array['type'] . '</li>';
+				$post_import_content .= '<li class="rk-activity">Activity: ' . $rkActivity_detailed_array['type'] . '</li>';
 			} else {
 				//Do Nothing
 			}
@@ -416,11 +416,11 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 		if ( !empty($post_options['distance']) ) {
 			if ( !empty($rkActivity_detailed_array['total_distance']) ) {
 				if ( get_option('toz_rk_units') == 'standard' ) {
-					$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' mi</li>'; //Meters * Miles
+					$post_import_content .= '<li class="rk-distance">Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' mi</li>'; //Meters * Miles
 				} else if ( get_option('toz_rk_units') == 'metric' ) {
-					$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']/1000, 2) . ' km</li>'; //Meters / KM
+					$post_import_content .= '<li class="rk-distance">Distance: ' . round($rkActivity_detailed_array['total_distance']/1000, 2) . ' km</li>'; //Meters / KM
 				} else {
-					$post_import_content .= '<li>Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' mi</li>'; //Default to Standard
+					$post_import_content .= '<li class="rk-distance">Distance: ' . round($rkActivity_detailed_array['total_distance']*0.00062137, 2) . ' mi</li>'; //Default to Standard
 				}
 			} else {
 				//Do Nothing
@@ -431,7 +431,7 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 
 		if ( !empty($post_options['duration']) ) {
 			if ( !empty($rkActivity_detailed_array['duration']) ) {
-				$post_import_content .= '<li>Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li>';
+				$post_import_content .= '<li class="rk-duration">Duration: ' . date('H:i:s', $rkActivity_detailed_array['duration']) . '</li>';
 			} else {
 				//Do Nothing
 			}
@@ -448,15 +448,15 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 				if ( get_option('toz_rk_units') == 'standard' ) {
 					$dps = round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2) / $total_seconds;
 					$sph = round($dps * 60 * 60, 2);
-					$post_import_content .= '<li>Average Speed: ' . $sph . ' mph</li>';
+					$post_import_content .= '<li class="rk-avg-speed">Average Speed: ' . $sph . ' mph</li>';
 				} else if ( get_option('toz_rk_units') == 'metric' ) {
 					$dps = round($rkActivity_detailed_array['total_distance'] / 1000, 2) / $total_seconds;
 					$sph = round($dps * 60 * 60, 2);
-					$post_import_content .= '<li>Average Speed: ' . $sph . ' kmh</li>';
+					$post_import_content .= '<li class="rk-avg-speed">Average Speed: ' . $sph . ' kmh</li>';
 				} else {
 					$dps = round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2) / $total_seconds;
 					$sph = round($dps * 60 * 60, 2);
-					$post_import_content .= '<li>Average Speed: ' . $sph . ' mph</li>';
+					$post_import_content .= '<li class="rk-avg-speed">Average Speed: ' . $sph . ' mph</li>';
 				}
 
 			} else {
@@ -475,15 +475,15 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 				if ( get_option('toz_rk_units') == 'standard' ) {
 					$pps = $total_seconds / round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2);
 					$ppm = date('i:s', $pps);
-					$post_import_content .= '<li>Average Pace: ' . $ppm . ' min/mi</li>';
+					$post_import_content .= '<li class="rk-avg-pace">Average Pace: ' . $ppm . ' min/mi</li>';
 				} else if ( get_option('toz_rk_units') == 'metric' ) {
 					$pps = $total_seconds / round($rkActivity_detailed_array['total_distance'] / 1000, 2);
 					$ppm = date('i:s', $pps);
-					$post_import_content .= '<li>Average Pace: ' . $ppm . ' min/km</li>';
+					$post_import_content .= '<li class="rk-avg-pace">Average Pace: ' . $ppm . ' min/km</li>';
 				} else {
 					$pps = $total_seconds / round($rkActivity_detailed_array['total_distance'] * 0.00062137, 2);
 					$ppm = date('i:s', $pps);
-					$post_import_content .= '<li>Average Pace: ' . $ppm . ' min/mi</li>';
+					$post_import_content .= '<li class="rk-avg-pace">Average Pace: ' . $ppm . ' min/mi</li>';
 				}
 
 			} else {
@@ -495,7 +495,7 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 
 		if ( !empty($post_options['calories']) ) {
 			if ( !empty($rkActivity_detailed_array['total_calories']) ) {
-				$post_import_content .= '<li>Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li>';
+				$post_import_content .= '<li class="rk-calories">Calories Burned: ' . $rkActivity_detailed_array['total_calories'] . '</li>';
 			} else {
 				//Do Nothing
 			}
@@ -505,7 +505,7 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 
 		if ( !empty($post_options['heartrate']) ) {
 			if ( !empty($rkActivity_detailed_array['average_heart_rate']) ) {
-				$post_import_content .= '<li>Heart Rate: ' . $rkActivity_detailed_array['average_heart_rate'] . '</li>';
+				$post_import_content .= '<li class="rk-heart-rate">Heart Rate: ' . $rkActivity_detailed_array['average_heart_rate'] . '</li>';
 			} else {
 				//Do Nothing
 			}
@@ -515,7 +515,7 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 
 		if ( !empty($post_options['url']) ) {
 			if ( !empty($rkActivity_detailed_array['activity']) ) {
-				$post_import_content .= '<li>Activity Link: <a href="' . $rkActivity_detailed_array['activity'] . '">' . $rkActivity_detailed_array['activity'] . '</a></li>';;
+				$post_import_content .= '<li class="rk-activity-link">Activity Link: <a href="' . $rkActivity_detailed_array['activity'] . '">' . $rkActivity_detailed_array['activity'] . '</a></li>';;
 			} else {
 				//Do Nothing
 			}
@@ -525,7 +525,7 @@ function toz_rk_post( $rkActivity_detailed_array ) {
 
 		if ( !empty($post_options['time']) ) {
 			if ( !empty($rkActivity_detailed_array['start_time']) ) {
-				$post_import_content .= '<li>Start Time: ' . $rkActivity_detailed_array['start_time'] . '</li>';
+				$post_import_content .= '<li class="rk-start-time">Start Time: ' . $rkActivity_detailed_array['start_time'] . '</li>';
 			} else {
 				//Do Nothing
 			}
