@@ -3,8 +3,8 @@ Contributors: phikai
 Donate link: http://runkeeper.thinkonezero.com
 Tags: runkeeper, widget,
 Requires at least: 3.5
-Tested up to: 4.0.0
-Stable tag: 1.7.3
+Tested up to: 4.7.0
+Stable tag: 1.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ This function was introduced in PHP 5.3, so you'll need to check with your hosti
 4. Plugin options for Posts
 
 == Changelog ==
+
+= 1.7.4 =
+* Stable up to 4.7.0
 
 = 1.7.3 =
 * Stable up to 4.0.0
