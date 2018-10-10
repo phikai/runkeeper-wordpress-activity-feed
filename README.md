@@ -1,3 +1,6 @@
+**PSA**: Project has moved to [gitlab](https://gitlab.com/phikai/runkeeper-wordpress-activity-feed). This repo will remain on Github as a mirror.
+---
+
 Branch:  phikai / runkeeper-wordpress-activity-feed
 Author: A. Kai Armstrong - http://www.kaiarmstrong.com
 Description: A WordPress plugin that automatically posts RunKeeper Activities as blog posts. It also provides the ability to import all of your exisiting activites as posts.
@@ -10,13 +13,13 @@ Included libraries are subject to their own licenses.
 Installation:
  - The plugin currently contains two additional repositories as submodules, so the ZIP download and a standard "git clone" won't work.
  - Steps:
-    - git clone --recursive https://github.com/phikai/runkeeper-wordpress-activity-feed
+    - git clone --recursive https://gitlab.com/phikai/runkeeper-wordpress-activity-feed
     - Activate Plugin from WordPress Plugins Menu
     - Authorize RunKeeper Account
     - Select Author UserID and Post Categories
 
 Bugs: 
- - Report at: https://github.com/phikai/runkeeper-wordpress-activity-feed/issues
+ - Report at: https://gitlab.com/phikai/runkeeper-wordpress-activity-feed/issues
 
 Questions/Comments
  - http://www.kaiarmstrong.com/contact/
